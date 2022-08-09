@@ -1,0 +1,20 @@
+﻿@model Book
+
+<div class="form-group">
+  <a asp-controller="Books" asp-action="Index" class="btn btn-primary">
+    Back to Index
+  </a>
+</div>
+
+<div class="card" style="width:200px">
+  <img 
+    class="card-img-top" 
+    src="https://upload.wikimedia.org/wikipedia/commons/6/67/Microsoft_To-Do_icon.png" 
+    alt="Todo image">
+  <div class="card-body">
+    <h4 class="card-title">@Model.Title</h4>
+    <p class="card-text">Category: @Model.Category.Description</p>
+    <p class="card-text">Author: @Model.Author</p>
+    <p class="card-text">Price: @Model.Price $ </p>
+  </div>
+</div>

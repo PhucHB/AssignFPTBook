@@ -1,0 +1,36 @@
+﻿@using AssignFPTBook.ViewModels
+
+@model BookCategoriesViewModel
+
+<h1>Create a new Book</h1>
+
+<form asp-controller="Books" asp-action="Edit" method="post">
+ <input asp-for="@Model.Book.Id" type="hidden" value="@Model.Book.Id" />
+  <div class="form-group">
+    <label>Title</label>
+    <input asp-for="Book.Title" class="form-control" placeholder="Book Title ..." />
+  </div>
+  <div class="form-group">
+    <label>Category</label>
+      <select 
+        asp-for="Book.CategoryId" 
+        asp-items="@(new SelectList(Model.Categories, "Id", "Description"))" 
+        class="form-control">
+      </select>
+  </div>
+  <div class="form-group">
+    <label>Author</label>
+    <input asp-for="Book.Author" class="form-control" placeholder="Book Author ..." />
+  </div>
+  <div class="form-group">
+    <label>Description</label>
+    <input asp-for="Book.Description" class="form-control" placeholder="Book Description ..." />
+  </div>
+  <div class="form-group">
+    <label>Price</label>
+    <input asp-for="    Book.Price" class="form-control" placeholder="Book Price ..." />
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Edit</button>
+  </div>
+</form>
