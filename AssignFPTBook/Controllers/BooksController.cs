@@ -1,6 +1,8 @@
 ﻿using AssignFPTBook.Data;
 using AssignFPTBook.Models;
 using AssignFPTBook.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -8,34 +10,56 @@ using System.Linq;
 
 namespace AssignFPTBook.Controllers
 {
+    [Authorize]
     public class BooksController : Controller
     {
         private ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
         // test 
-        public BooksController(ApplicationDbContext context)
+        public BooksController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Index(string category)
         {
+            var currentUserId = _userManager.GetUserId(User);
             if (!string.IsNullOrWhiteSpace(category))
             {
-                var result = _context.Books.Include(b => b.Category).Where(b => b.Category.Description.Equals(category)).ToList();
+                var result = _context.Books
+                    .Include(b => b.Category)
+                    .Where(b => b.Category.Description.Equals(category) && b.UserId == currentUserId).ToList();
                 return View(result);
             }
             IEnumerable<Book> books = _context.Books
                 .Include(b => b.Category)
+                .Where(b => b.UserId == currentUserId)
                 .ToList();
 
             return View(books);
+            //if (!string.IsNullOrWhiteSpace(category))
+            //{
+            //    var result = _context.Books.Include(b => b.Category).Where(b => b.Category.Description.Equals(category)).ToList();
+            //    return View(result);
+            //}
+            //IEnumerable<Book> books = _context.Books
+            //    .Include(b => b.Category)
+            //    .ToList();
+
+            //return View(books);
+
+
         }
 
         [HttpGet]
         public IActionResult Create()
         {
+            
             var viewModel = new BookCategoriesViewModel()
             {
                 Categories = _context.Categories.ToList()
+
+
             };
             return View(viewModel);
         }
@@ -50,6 +74,7 @@ namespace AssignFPTBook.Controllers
                 };
                 return View();
             }
+            var currentUserId = _userManager.GetUserId(User);
             var newBook = new Book
             {
 
@@ -57,7 +82,8 @@ namespace AssignFPTBook.Controllers
                 Description = viewModel.Book.Description,
                 Author = viewModel.Book.Author,
                 Price = viewModel.Book.Price,
-                CategoryId = viewModel.Book.CategoryId
+                CategoryId = viewModel.Book.CategoryId,
+                UserId = currentUserId
             };
             _context.Add(newBook);
             _context.SaveChanges();
@@ -66,7 +92,8 @@ namespace AssignFPTBook.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var bookInDb = _context.Books.SingleOrDefault(b => b.Id == id);
+            var currentUserId = _userManager.GetUserId(User);
+            var bookInDb = _context.Books.SingleOrDefault(b => b.Id == id && b.UserId == currentUserId);
             if (bookInDb is null)
             {
                 return NotFound();
@@ -78,7 +105,8 @@ namespace AssignFPTBook.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var bookInDb = _context.Books.Include(b => b.Category).SingleOrDefault(b => b.Id == id);
+            var currentUserId = _userManager.GetUserId(User);
+            var bookInDb = _context.Books.Include(b => b.Category).SingleOrDefault(b => b.Id == id && b.UserId == currentUserId);
             IEnumerable<Book> books = _context.Books
                 .Include(b => b.Category)
                 .ToList();
@@ -91,11 +119,14 @@ namespace AssignFPTBook.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var bookInDb = _context.Books.SingleOrDefault(b => b.Id == id);
+            
+            var currentUserId = _userManager.GetUserId(User);
+            var bookInDb = _context.Books.SingleOrDefault(b => b.Id == id && b.UserId == currentUserId);
             if (bookInDb is null)
             {
                 return NotFound();
             }
+
             var viewModel = new BookCategoriesViewModel
             {
                 Book = bookInDb,
@@ -106,7 +137,8 @@ namespace AssignFPTBook.Controllers
         [HttpPost]
         public IActionResult Edit(BookCategoriesViewModel viewModel)
         {
-            var bookInDb = _context.Books.SingleOrDefault(b => b.Id == viewModel.Book.Id);
+            var currentUserId = _userManager.GetUserId(User);
+            var bookInDb = _context.Books.SingleOrDefault(b => b.Id == viewModel.Book.Id && b.UserId == currentUserId);
             if (bookInDb is null)
             {
                 return BadRequest();
