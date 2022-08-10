@@ -2,6 +2,7 @@ using AssignFPTBook.Data;
 using AssignFPTBook.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -32,8 +33,10 @@ namespace AssignFPTBook
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+        .AddEntityFrameworkStores<ApplicationDbContext>();
             
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

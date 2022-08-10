@@ -1,5 +1,6 @@
 ﻿using AssignFPTBook.Data;
 using AssignFPTBook.Models;
+using AssignFPTBook.Utils;
 using AssignFPTBook.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +11,7 @@ using System.Linq;
 
 namespace AssignFPTBook.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = Role.STORE)]
     public class BooksController : Controller
     {
         private ApplicationDbContext _context;

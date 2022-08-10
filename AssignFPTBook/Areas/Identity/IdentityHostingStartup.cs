@@ -16,12 +16,6 @@ namespace AssignFPTBook.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<AssignFPTBookContext>(options =>
-                    options.UseSqlite(
-                        context.Configuration.GetConnectionString("AssignFPTBookContextConnection")));
-
-                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<AssignFPTBookContext>();
             });
         }
     }
