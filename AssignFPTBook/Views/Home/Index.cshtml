@@ -1,8 +1,42 @@
-﻿@{
+﻿@using AssignFPTBook.Utils
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome </h1>
+    @{
+
+    }
+  @if (!User.Identity.IsAuthenticated)
+  {
+    <h3>New User ???</h3>
+    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-danger">Register your account</a>
+
+  }
+  else
+  {
+      
+    if (User.IsInRole(Role.ADMIN))
+    {
+        <h1 class="display-4">Welcome ADMIN </h1>
+      <p>Manage Category</p>
+      <p>Manage User Accounts</p>
+      <p>Manage Store Accounts</p>
+
+    }
+    if (User.IsInRole(Role.USER))
+    {
+        <h1 class="display-4">Welcome USER </h1>
+      <a asp-controller="" asp-action="Index" class="btn btn-primary">Go to your Cart</a>
+      <a asp-controller="" asp-action="Index" class="btn btn-primary">Go to your History Order</a>
+    }
+    if (User.IsInRole(Role.STORE))
+    {
+        <h1 class="display-4">Welcome STORE </h1>
+      <a asp-controller="Books" asp-action="Index" class="btn btn-primary">Go to your Books Manager</a>
+      <a asp-controller="" asp-action="Index" class="btn btn-primary">Go to your Customer</a>
+    }
+  }
 </div>
