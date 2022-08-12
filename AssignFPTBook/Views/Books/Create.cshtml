@@ -4,7 +4,7 @@
 
 <h1>Create a new Book</h1>
 
-<form asp-controller="Books" asp-action="Create" method="post">
+<form enctype="multipart/form-data" asp-controller="Books" asp-action="Create" method="post">
   <div class="form-group">
     <label>Title</label>
     <input asp-for="Book.Title" class="form-control" placeholder="Book title ..." />
@@ -30,7 +30,16 @@
     <label>Price</label>
     <input asp-for="Book.Price" class="form-control" placeholder="Book Price ..." />
   </div>
-  
+  <div class="form-group">
+        <dl>
+        <dt>
+            <label asp-for="@Model.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="@Model.FormFile" type="file">
+        </dd>
+    </dl>
+  </div>
   <div class="form-group">
     <button type="submit" class="btn btn-primary">Create</button>
   </div>
