@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AssignFPTBook.Controllers
 {
@@ -65,7 +68,7 @@ namespace AssignFPTBook.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public IActionResult Create(BookCategoriesViewModel viewModel)
+        public async Task< IActionResult> Create(BookCategoriesViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -76,18 +79,24 @@ namespace AssignFPTBook.Controllers
                 return View();
             }
             var currentUserId = _userManager.GetUserId(User);
-            var newBook = new Book
+            using (var memoryStream = new MemoryStream())
             {
+                await viewModel.FormFile.CopyToAsync(memoryStream);
+                var newBook = new Book
+                {
 
-                Title = viewModel.Book.Title,
-                Description = viewModel.Book.Description,
-                Author = viewModel.Book.Author,
-                Price = viewModel.Book.Price,
-                CategoryId = viewModel.Book.CategoryId,
-                UserId = currentUserId
-            };
-            _context.Add(newBook);
-            _context.SaveChanges();
+                    Title = viewModel.Book.Title,
+                    Description = viewModel.Book.Description,
+                    Author = viewModel.Book.Author,
+                    Price = viewModel.Book.Price,
+                    CategoryId = viewModel.Book.CategoryId,
+                    UserId = currentUserId,
+                    ImageData = memoryStream.ToArray()
+                };
+                _context.Add(newBook);
+                await _context.SaveChangesAsync();
+            }
+            
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -115,6 +124,10 @@ namespace AssignFPTBook.Controllers
             {
                 return NotFound();
             }
+            string imageBase64Data = Convert.ToBase64String(bookInDb.ImageData);
+
+            string image = string.Format("data:image/jpg;base64, {0}", imageBase64Data);
+            ViewBag.ImageData = image;
             return View(bookInDb);
         }
         [HttpGet]
