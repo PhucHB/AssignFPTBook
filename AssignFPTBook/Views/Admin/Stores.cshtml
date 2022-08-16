@@ -22,7 +22,7 @@
         <td>@item.FullName</td>
         <td>@item.Address</td>
         <td>@item.PhoneNumber</td>
-        <td><a asp-action="ChangePassword" asp-controller="Admin">Change Password</a></td>
+        <td><a asp-action="ResetPassword" asp-controller="Admin" asp-route-id=@item.Id>Change Password</a></td>
       </tr>
   }
   </tbody>

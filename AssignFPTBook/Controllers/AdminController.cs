@@ -1,9 +1,12 @@
 ﻿using AssignFPTBook.Data;
 using AssignFPTBook.Models;
 using AssignFPTBook.Utils;
+using AssignFPTBook.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AssignFPTBook.Controllers
 {
@@ -37,5 +40,43 @@ namespace AssignFPTBook.Controllers
             var storesWithPermission = _userManager.GetUsersInRoleAsync(Role.STORE).Result;
             return View(storesWithPermission);
         }
+
+        [HttpGet]
+        public IActionResult ResetPassword(string id)
+        {
+            var user = _userManager.GetUserId(User);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ResetPasswordViewModel
+            {
+                Id = id,
+            };
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.NewPassword);
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                return View();
+            }
+
+            return View();
+        }
+
     }
 }
