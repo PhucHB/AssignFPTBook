@@ -30,5 +30,12 @@ namespace AssignFPTBook.Controllers
             var usersWithPermission = _userManager.GetUsersInRoleAsync(Role.USER).Result;
             return View(usersWithPermission);
         }
+
+        [HttpGet]
+        public IActionResult Stores()
+        {
+            var storesWithPermission = _userManager.GetUsersInRoleAsync(Role.STORE).Result;
+            return View(storesWithPermission);
+        }
     }
 }

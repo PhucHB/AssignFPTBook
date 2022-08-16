@@ -21,9 +21,9 @@
     if (User.IsInRole(Role.ADMIN))
     {
         <h1 class="display-4">Welcome ADMIN </h1>
-        <a asp-controller="Admin" asp-action="Users" class="btn btn-dark">Manage Accounts</a>
-          <p>Manage Category</p>
-          <p>Manage Store Accounts</p>
+        <a asp-controller="Admin" asp-action="Users" class="btn btn-dark">Manage Users</a>
+        <a asp-controller="Admin" asp-action="Stores" class="btn btn-dark">Manage Stores</a>
+        <p>Manage Category</p>
 
     }
     if (User.IsInRole(Role.USER))
