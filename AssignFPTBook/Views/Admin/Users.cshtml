@@ -8,6 +8,9 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">User Email</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">Phone number</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -16,6 +19,9 @@
       <tr>
         <th scope="row">@item.Id</th>
         <td>@item.Email</td>
+        <td>@item.FullName</td>
+        <td>@item.Address</td>
+        <td>@item.PhoneNumber</td>
         <td><a asp-action="ChangePassword" asp-controller="Admin">Change Password</a></td>
       </tr>
   }
