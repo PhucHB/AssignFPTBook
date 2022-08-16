@@ -1,0 +1,17 @@
+﻿@model ContactAdmin
+<h1>Contact Admin </h1>
+
+<form enctype="multipart/form-data" asp-controller="ContactAdmins" asp-action="Create" method="post">
+  <div class="form-group">
+    <label>Name</label>
+    <input asp-for="Name" class="form-control" placeholder=" ..." />
+  </div>
+  <div class="form-group">
+    <label>Description</label>
+    <input asp-for="DecriptionContact" class="form-control" placeholder="Description  ..." />
+  </div>
+  
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>
