@@ -54,7 +54,7 @@ namespace AssignFPTBook.Controllers
             }
             CtInDb.Status = contactAdmin.Status;
             _context.SaveChanges();
-            return RedirectToAction("edit");
+            return RedirectToAction("index");
         }
         [Authorize(Roles = Role.STORE)]
         [HttpGet]
@@ -76,7 +76,7 @@ namespace AssignFPTBook.Controllers
             };
             _context.Add(newContact);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("CustomerView");
         }
 
         public IActionResult CustomerView()
