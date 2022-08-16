@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ContactAdmin>
+
+<h1>.........Store View..........</h1>
+<a asp-controller="ContactAdmins" asp-action="Create" class="btn btn-primary">Send Contact</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+
+            <th scope="col">Name of Contact</th>
+            <th scope="col">Description of Contact</th>
+            
+            <th scope="col">Status</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@item.Name</td>
+                <td>@item.DecriptionContact</td>
+                
+                <td>@item.Status</td>
+               
+            </tr>
+        }
+    </tbody>
+</table>
