@@ -17,11 +17,14 @@ namespace AssignFPTBook.Data
         }
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ContactAdmin> contactAdmins { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             this.SeedRoles(builder);
         }
+        
+
         private void SeedRoles(ModelBuilder builder)
         {
             builder.Entity<IdentityRole>().HasData
