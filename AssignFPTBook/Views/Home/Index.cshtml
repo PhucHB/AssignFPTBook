@@ -5,13 +5,9 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome </h1>
-    @{
-
-    }
   @if (!User.Identity.IsAuthenticated)
   {
-    <h3>New User ???</h3>
+    <h1>New User ???</h1>
     <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-danger">Register your account</a>
 
   }
@@ -23,26 +19,21 @@
         <h1 class="display-4">Welcome ADMIN </h1>
         <a asp-controller="Admin" asp-action="Users" class="btn btn-dark">Manage Users</a>
         <a asp-controller="Admin" asp-action="Stores" class="btn btn-dark">Manage Stores</a>
-        <p>Manage Category</p>
         <a asp-controller="ContactAdmins" asp-action="Index" class="btn btn-primary">Contact</a>
-
-
     }
     if (User.IsInRole(Role.USER))
     {
-        <h1 class="display-4">Welcome USER </h1>
+      <h1 class="display-4">Welcome USER </h1>
       <a asp-controller="" asp-action="Index" class="btn btn-primary">Go to your Cart</a>
       <a asp-controller="Customers" asp-action="Index" class="btn btn-primary">BY</a>
       <a asp-controller="" asp-action="Index" class="btn btn-primary">Go to your History Order</a>
     }
     if (User.IsInRole(Role.STORE))
     {
-        <h1 class="display-4">Welcome STORE </h1>
+      <h1 class="display-4">Welcome STORE </h1>
       <a asp-controller="Books" asp-action="Index" class="btn btn-primary">Go to your Books Manager</a>
-      <a asp-controller="" asp-action="Index" class="btn btn-primary">Go to your Customer</a>
-      
+      <a asp-controller="" asp-action="Index" class="btn btn-primary">Go to your Customer</a>    
       <a asp-controller="ContactAdmins" asp-action="CustomerView" class="btn btn-primary">Contact</a>
-
     }
   }
 </div>
