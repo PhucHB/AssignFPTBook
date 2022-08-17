@@ -59,5 +59,9 @@ namespace AssignFPTBook.Controllers
         {
             return View();
         }
+        public IActionResult Help()
+        {
+            return View();
+        }
     }
 }
