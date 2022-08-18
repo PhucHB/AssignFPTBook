@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AssignFPTBook.Controllers
 {
@@ -62,6 +63,14 @@ namespace AssignFPTBook.Controllers
         public IActionResult Help()
         {
             return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+
+            var profileUser = _userManager.GetUserAsync(User).Result;
+            return View(profileUser);
+
         }
     }
 }

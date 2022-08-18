@@ -1,0 +1,73 @@
+﻿@using AssignFPTBook.Models
+
+@model List<CartItem>
+<h2>GIỎ HÀNG</h2>
+
+@if (Model.Count >0) {
+  double total = 0;
+  int stt = 1;
+  
+  <table class="table">
+    <tr>
+      <th>#</th>
+      <th>Sản phẩm</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Thành tiền</th>
+      <th></th>
+    </tr>
+    @foreach (var Item in Model)
+    {
+        var itemMoney = Item.Quantity * Item.book.Price;
+            total += itemMoney;
+
+        <tr>
+           <td>@(stt++)</td>
+           <td>@Item.book.Title</td>
+           <td>@(Item.book.Price.ToString("n0"))</td>
+           <td><input asp-for="@Item.book" id="@($"quantity-{Item.book.Id}")"/></td>
+           <td>@(itemMoney.ToString("n0"))</td>
+           <td>
+              <button class="btn btn-success updatecartitem" 
+                    data-productid="@Item.book.Id">Update</button>
+              <a asp-route="removecart" asp-route-productid="@Item.book.Id"
+                class="btn btn-danger">Xóa</a>
+           </td>
+        </tr>
+    }
+      <tr>
+          <td colspan="4" class="text-right">Total Money</td>
+          <td>@(total.ToString("n0"))</td>
+          <td></td>
+      </tr>
+  </table>
+
+  <a asp-controller="Cart" asp-action="Checkout" class="btn btn-success">Checkout</a>
+
+      @section Scripts {
+        <script>
+          $(document).ready(function () {
+              $(".updatecartitem").click(function (event) {
+                  event.preventDefault();
+                  var BookId = $(this).attr("data-BookId");
+                  var Quantity = $("#Quantity-" + BookId).val();
+                  $.ajax({
+                      type: "POST",
+                      url:"@Url.RouteUrl("updatecart")",
+                      data: {
+                          BookId: BookId,
+                          Quantity:Quantity
+                      },
+                      success: function (result) {
+                          window.location.href = "@Url.RouteUrl("cart")";
+                      }
+                  });
+              });
+          });
+        </script>
+      }
+
+}
+else {
+  <p class="alert alert-danger">Cart is null</p>
+}
