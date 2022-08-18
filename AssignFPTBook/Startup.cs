@@ -1,4 +1,4 @@
-using AssignFPTBook.Data;
+﻿using AssignFPTBook.Data;
 using AssignFPTBook.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,8 +35,12 @@ namespace AssignFPTBook
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>();
-            
-                
+            services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+            services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+                cfg.Cookie.Name = "AssignFPTBook";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+                cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
+            });
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -59,7 +63,7 @@ namespace AssignFPTBook
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -1,5 +1,5 @@
 ﻿using AssignFPTBook.Data;
-using AssignFPTBook.Helpers;
+
 using AssignFPTBook.Models;
 using AssignFPTBook.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -62,7 +62,7 @@ namespace AssignFPTBook.Controllers
                                        int BookId)
         {
             var book = _context.Books.Where(b=>b.Id == BookId).FirstOrDefault();
-            if (Book == null) { return NotFound("k có sản phẩm này"); }
+            if (BookId == null) { return NotFound("k có sản phẩm này"); }
                 
             var cart = GetCartItems();
             var cartitem = cart.Find(b=>b.book.Id == BookId);
@@ -105,12 +105,12 @@ namespace AssignFPTBook.Controllers
             var cartitem = cart.Find(p => p.book.Id == Bookid);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
+                
                 cart.Remove(cartitem);
             }
 
             SaveCartSession(cart);
-            // Xử lý xóa một mục của Cart ...
+            
             return RedirectToAction(nameof(Index));
         }
         [Route("/updatecart", Name = "updatecart")]
