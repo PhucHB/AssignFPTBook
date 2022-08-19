@@ -1,7 +1,7 @@
 ﻿@using AssignFPTBook.Models
 
 @model List<CartItem>
-<h2>GIỎ HÀNG</h2>
+<h2>CART</h2>
 
 @if (Model.Count >0) {
   double total = 0;
@@ -10,10 +10,10 @@
   <table class="table">
     <tr>
       <th>#</th>
-      <th>Sản phẩm</th>
+      <th>Book</th>
       <th>Price</th>
       <th>Quantity</th>
-      <th>Thành tiền</th>
+      <th>Total money</th>
       <th></th>
     </tr>
     @foreach (var Item in Model)
@@ -26,12 +26,12 @@
            <td>@Item.book.Title</td>
            <td>@(Item.book.Price.ToString("n0"))</td>
            <td><input asp-for="@Item.book" id="@($"quantity-{Item.book.Id}")"/></td>
-           <td>@(itemMoney.ToString("n0"))</td>
+           @*<td>@(itemMoney.ToString("n0"))</td>*@
            <td>
               <button class="btn btn-success updatecartitem" 
                     data-productid="@Item.book.Id">Update</button>
               <a asp-route="removecart" asp-route-productid="@Item.book.Id"
-                class="btn btn-danger">Xóa</a>
+                class="btn btn-danger">Delete</a>
            </td>
         </tr>
     }

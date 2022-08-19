@@ -16,13 +16,11 @@ namespace AssignFPTBook.Controllers
         public const string CARTKEY = "cart"; 
         private ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        // test 
         public CartController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-        // Lấy cart từ Session (danh sách CartItem)
         List<CartItem> GetCartItems()
         {
 
@@ -34,14 +32,12 @@ namespace AssignFPTBook.Controllers
             }
             return new List<CartItem>();
         }
-        // Xóa cart khỏi session
         void ClearCart()
         {
             var session = HttpContext.Session;
             session.Remove(CARTKEY);
         }
 
-        // Lưu Cart (Danh sách CartItem) vào session
         void SaveCartSession(List<CartItem> ls)
         {
             var session = HttpContext.Session;
@@ -49,7 +45,6 @@ namespace AssignFPTBook.Controllers
             session.SetString(CARTKEY, jsoncart);
         }
 
-        //-------------------------Controler---------------------
         public IActionResult Index()
         {
             //var cart = SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart ");
@@ -117,12 +112,10 @@ namespace AssignFPTBook.Controllers
         [HttpPost]
         public IActionResult UpdateCart([FromForm] int Bookid, [FromForm] int quantity)
         {
-            // Cập nhật Cart thay đổi số lượng quantity ...
             var cart = GetCartItems();
             var cartitem = cart.Find(p => p.book.Id == Bookid);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cartitem.Quantity = quantity;
             }
             SaveCartSession(cart);
@@ -132,7 +125,6 @@ namespace AssignFPTBook.Controllers
         [Route("/checkout")]
         public IActionResult CheckOut()
         {
-            // Xử lý khi đặt hàng
             return View();
         }
     }   
