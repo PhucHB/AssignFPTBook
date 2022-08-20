@@ -8,7 +8,7 @@
     string jsoncart = session.GetString (AssignFPTBook.Controllers.CartController.CARTKEY);
     if (jsoncart != null) {
         var cart = JsonConvert.DeserializeObject<List<CartItem>> (jsoncart);
-        <div class="nav-item"><a asp-route="cart">Cart(@cart.Count)</a></div>
+        <h7 asp-route="cart">(@cart.Count)</h7>
          
     }
 }
