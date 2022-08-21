@@ -18,12 +18,15 @@ namespace AssignFPTBook.Data
         public DbSet<Book> Books { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ContactAdmin> contactAdmins { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             this.SeedRoles(builder);
         }
-        
+
 
         private void SeedRoles(ModelBuilder builder)
         {
@@ -33,7 +36,7 @@ namespace AssignFPTBook.Data
                     new IdentityRole() { Id = "c7b013f0-5201-4317-abd8-c211f91b7330", Name = Role.ADMIN, ConcurrencyStamp = "2", NormalizedName = Role.ADMIN },
                     new IdentityRole() { Id = "d7b013f2-6202-5318-cbd8-d211f91b7332", Name = Role.STORE, ConcurrencyStamp = "3", NormalizedName = Role.STORE }
                 );
-                
+
         }
     }
 }

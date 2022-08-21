@@ -9,5 +9,6 @@ namespace AssignFPTBook.Models
         public string Address { get; set; }
         public List<Book> Books { get; set; }
         public List<ContactAdmin> contactAdmins { get; set; }
+        public virtual List<Order> Orders { get; set; }
     }
 }

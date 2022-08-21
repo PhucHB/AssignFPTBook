@@ -4,14 +4,16 @@ using AssignFPTBook.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AssignFPTBook.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220821081640_addAllTable")]
+    partial class addAllTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -211,7 +213,10 @@ namespace AssignFPTBook.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BookId")
+                    b.Property<string>("BookId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("BookId1")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId1")
@@ -222,7 +227,7 @@ namespace AssignFPTBook.Data.Migrations
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("BookId");
+                    b.HasIndex("BookId1");
 
                     b.HasIndex("OrderId1");
 
@@ -418,9 +423,7 @@ namespace AssignFPTBook.Data.Migrations
                 {
                     b.HasOne("AssignFPTBook.Models.Book", "Book")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BookId1");
 
                     b.HasOne("AssignFPTBook.Models.Order", "Order")
                         .WithMany("OrderDetails")
