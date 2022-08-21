@@ -23,12 +23,15 @@ namespace AssignFPTBook.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public IActionResult Index(string category)
+        public IActionResult Index(string search)
         {
-            
-            if (!string.IsNullOrWhiteSpace(category))
+
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                var result = _context.Books.Include(b => b.Category).Where(b => b.Category.Description.Equals(category)).ToList();
+                var result = _context.Books
+                    .Include(b => b.Category)
+                    .Where(b => b.Category.Description.ToLower().Equals(search))
+                    .ToList();
                 
                 return View(result);
             }
