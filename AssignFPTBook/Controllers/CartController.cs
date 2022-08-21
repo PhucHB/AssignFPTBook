@@ -5,9 +5,13 @@ using AssignFPTBook.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AssignFPTBook.Controllers
 {
@@ -52,9 +56,6 @@ namespace AssignFPTBook.Controllers
         //-------------------------Controler---------------------
         public IActionResult Index()
         {
-            //var cart = SessionHelper.GetObjectFromJson<List<CartItemViewModel>>(HttpContext.Session, "cart ");
-            //ViewBag.cart = cart;
-            //ViewBag.total = cart.Sum(item => item.book.Price * item.Quantity);
             return View(GetCartItems());
         }
 
@@ -119,11 +120,94 @@ namespace AssignFPTBook.Controllers
             return Ok();
         }
 
-        [Route("/checkout")]
-        public IActionResult CheckOut()
+
+        public IActionResult CheckOut(string returnUrl = null)
         {
-            // Xử lý khi đặt hàng
-            return View();
+            var CurentId = _userManager.GetUserId(User);
+            List<CartItem> myDetailsInCart = GetCartItems();
+            using (var ttransaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                     Order myorder = new Order();
+                    myorder.UId = CurentId;
+                    //myorder.Total = myDetailsInCart.Select(c=>c.book.Price).Aggregate((c1, c2) => c1 + c2);
+                    _context.Add(myorder);
+                    _context.SaveChanges();
+
+                    foreach(var item in myDetailsInCart)
+                    {
+                        OrderDetail detail = new OrderDetail()
+                        {
+                            OrderId = myorder.Id,
+                            BookId = item.book.Id,
+                            Quantity = 1
+                        };
+                        _context.Add(detail);
+                    }
+                    
+                    _context.SaveChanges();
+                    
+                }
+                catch (DbUpdateException ex)
+                {
+                    
+                    Console.WriteLine("Error occurred in Checkout" + ex);
+
+                }
+            }
+                return RedirectToAction("Index");
         }
+        //public async Task<IActionResult> Checkout(string returnUrl = null)
+        //{
+        //    int quantity = 1;
+        //    FPTBookUser thisUser = await _userManager.GetUserAsync(HttpContext.User);
+        //    List<Cart> myDetailsInCart = await _context.Carts
+        //        .Where(c => c.UId == thisUser.Id)
+        //        .Include(c => c.Book)
+        //        .ToListAsync();
+        //    var Cart = _context.Carts.Include(c => c.Book).Where(b => b.UId == thisUser.Id).FirstOrDefault();
+
+        //    using (var transaction = _context.Database.BeginTransaction())
+        //    {
+        //        try
+        //        {
+        //            //Step 1: create an order
+        //            Order myOrder = new Order();
+        //            myOrder.Uid = thisUser.Id;
+        //            myOrder.OrderDate = DateTime.Now;
+        //            myOrder.Total = myDetailsInCart.Select(c => c.Price)
+        //       .Aggregate((c1, c2) => c1 + c2);
+
+        //            _context.Add(myOrder);
+        //            await _context.SaveChangesAsync();
+
+        //            //Step 2: insert all order details by var "myDetailsInCart"
+        //            foreach (var item in myDetailsInCart)
+        //            {
+        //                OrderDetail detail = new OrderDetail()
+        //                {
+        //                    OderID = myOrder.Id,
+        //                    BookIisbn = item.BookIsbn,
+        //                    Quantity = item.Quantity
+        //                };
+        //                _context.Add(detail);
+        //            }
+        //            await _context.SaveChangesAsync();
+
+        //            //Step 3: empty/delete the cart we just done for thisUser
+        //            _context.Carts.RemoveRange(myDetailsInCart);
+        //            await _context.SaveChangesAsync();
+
+        //            transaction.Comm it();
+        //        }
+        //        catch (DbUpdateException ex)
+        //        {
+        //            transaction.Rollback();
+        //            Console.WriteLine("Error occurred in Checkout" + ex);
+        //        }
+        //    }
+        //    return RedirectToAction("Email");
+        //}
     }   
 }
