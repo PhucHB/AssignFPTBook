@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Category>
+
+<h1>.........Category..........</h1>
+<div class="form-group">
+    <a asp-controller="Categories" asp-action="Create" class="btn btn-primary">
+        Create a new Category
+    </a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+
+            <th scope="col">Categoory title</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">@item.Id</th>
+                <td>@item.Description</td>
+               
+                <td>
+                    <a asp-controller="Categories"
+                   asp-action="Edit"
+                   asp-route-id=@item.Id
+                   class="btn btn-info">
+                        Edit
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,14 @@
+﻿@model Category
+<h1>Create new category for Admin </h1>
+
+<form enctype="multipart/form-data" asp-controller="Categories" asp-action="Create" method="post">
+  <div class="form-group">
+    <label>New Category</label>
+    <input asp-for="Description" class="form-control" placeholder=" Categoty Title..." />
+  </div>
+  
+  
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>

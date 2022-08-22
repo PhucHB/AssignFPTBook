@@ -1,0 +1,12 @@
+﻿
+@model Category
+<h1>Edit</h1>
+<form asp-controller="Categories" asp-action="Edit" method="post">
+    <div class="form-group">
+    <label>Category Title</label>
+    <input asp-for="Description" class="form-control" placeholder="Category Title ..." />
+  </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </div>
+</form>
