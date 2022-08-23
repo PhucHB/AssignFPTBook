@@ -65,7 +65,7 @@ namespace AssignFPTBook.Controllers
             var currentId = _userManager.GetUserId(User);
             var book = _context.Books.FirstOrDefault(b => b.Id == id);
             var cart = GetCartItems();
-            var cartitem = cart.Find(b => b.book.Id == id && b.user.Id == currentId);
+            var cartitem = cart.Find(b => b.book.Id == id);
 
 
 
@@ -123,7 +123,7 @@ namespace AssignFPTBook.Controllers
             {
                 try
                 {
-                     Order myorder = new Order();
+                    Order myorder = new Order();
                     myorder.UId = CurentId;
                     //myorder.Total = myDetailsInCart.Select(c=>c.book.Price).Aggregate((c1, c2) => c1 + c2);
                     _context.Add(myorder);
@@ -137,6 +137,7 @@ namespace AssignFPTBook.Controllers
                             BookId = item.book.Id,
                             Quantity = 1
                         };
+                        RemoveCart(detail.BookId);
                         _context.Add(detail);
                     }
                     
