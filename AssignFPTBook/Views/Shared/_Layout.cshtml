@@ -58,7 +58,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Books" asp-action="Index">Books Management</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Your Customer</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="OrderStore">Your Customer</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="ContactAdmins" asp-action="CustomerView">Contact</a>
@@ -91,7 +91,7 @@
                                 <a class="nav-link text-dark" asp-area=""  asp-controller="Cart" asp-action="Index">Cart @await Html.PartialAsync("_CartPartial") </a>
                             </li>
                             <li class="nav-item" >
-                                <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">History Orders</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">History Orders</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Customers" asp-action="Help">Help</a>

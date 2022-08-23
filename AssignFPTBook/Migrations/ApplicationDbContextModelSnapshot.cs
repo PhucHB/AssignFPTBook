@@ -4,16 +4,14 @@ using AssignFPTBook.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AssignFPTBook.Data.Migrations
+namespace AssignFPTBook.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220821081640_addAllTable")]
-    partial class addAllTable
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -208,28 +206,25 @@ namespace AssignFPTBook.Data.Migrations
 
             modelBuilder.Entity("AssignFPTBook.Models.OrderDetail", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BookId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("BookId1")
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId1")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BookId1");
+                    b.HasIndex("BookId");
 
-                    b.HasIndex("OrderId1");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -423,11 +418,13 @@ namespace AssignFPTBook.Data.Migrations
                 {
                     b.HasOne("AssignFPTBook.Models.Book", "Book")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("BookId1");
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("AssignFPTBook.Models.Order", "Order")
                         .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId1")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

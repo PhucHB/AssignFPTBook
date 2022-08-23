@@ -67,9 +67,10 @@ namespace AssignFPTBook.Controllers
         
         public IActionResult AddCart(int id)
         {
+            var currentId = _userManager.GetUserId(User);
             var book = _context.Books.FirstOrDefault(b => b.Id == id);
             var cart = GetCartItems();
-            var cartitem = cart.Find(b => b.book.Id == id);
+            var cartitem = cart.Find(b => b.book.Id == id && b.user.Id == currentId);
 
 
 

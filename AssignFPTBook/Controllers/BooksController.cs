@@ -41,16 +41,7 @@ namespace AssignFPTBook.Controllers
                 .ToList();
 
             return View(books);
-            //if (!string.IsNullOrWhiteSpace(category))
-            //{
-            //    var result = _context.Books.Include(b => b.Category).Where(b => b.Category.Description.Equals(category)).ToList();
-            //    return View(result);
-            //}
-            //IEnumerable<Book> books = _context.Books
-            //    .Include(b => b.Category)
-            //    .ToList();
-
-            //return View(books);
+            
 
 
         }
