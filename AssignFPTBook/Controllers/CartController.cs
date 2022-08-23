@@ -20,13 +20,11 @@ namespace AssignFPTBook.Controllers
         public const string CARTKEY = "cart";
         private ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        // test 
         public CartController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
-        // Lấy cart từ Session (danh sách CartItem)
         List<CartItem> GetCartItems()
         {
 
@@ -38,14 +36,12 @@ namespace AssignFPTBook.Controllers
             }
             return new List<CartItem>();
         }
-        // Xóa cart khỏi session
         void ClearCart()
         {
             var session = HttpContext.Session;
             session.Remove(CARTKEY);
         }
 
-        // Lưu Cart (Danh sách CartItem) vào session
         void SaveCartSession(List<CartItem> ls)
         {
             var session = HttpContext.Session;
@@ -53,7 +49,6 @@ namespace AssignFPTBook.Controllers
             session.SetString(CARTKEY, jsoncart);
         }
 
-        //-------------------------Controler---------------------
         public IActionResult Index()
         {
             return View(GetCartItems());
@@ -75,7 +70,7 @@ namespace AssignFPTBook.Controllers
 
 
             if (book == null)
-            { return NotFound("k có sản phẩm này"); }
+            { return NotFound("Do not have this book!"); }
 
 
             if (cartitem != null)
@@ -109,12 +104,10 @@ namespace AssignFPTBook.Controllers
         [HttpPost]
         public IActionResult UpdateCart([FromForm] int id, [FromForm] int quantity)
         {
-            // Cập nhật Cart thay đổi số lượng quantity ...
             var cart = GetCartItems();
             var cartitem = cart.Find(p => p.book.Id == id);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
                 cartitem.Quantity = quantity;
             }
             SaveCartSession(cart);
