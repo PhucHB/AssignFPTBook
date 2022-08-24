@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Transactions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -20,6 +21,7 @@ namespace AssignFPTBook.Controllers
         public const string CARTKEY = "cart";
         private ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private string Message ="Order success please check your order ";
         public CartController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -115,44 +117,56 @@ namespace AssignFPTBook.Controllers
         }
 
 
-        public IActionResult CheckOut(string returnUrl = null)
+        public async Task< IActionResult> CheckOut()
         {
-            var CurentId = _userManager.GetUserId(User);
+            
             List<CartItem> myDetailsInCart = GetCartItems();
             using (var ttransaction = _context.Database.BeginTransaction())
             {
                 try
                 {
+                    var CurentId = _userManager.GetUserId(User);
                     Order myorder = new Order();
-                    myorder.UId = CurentId;
-                    //myorder.Total = myDetailsInCart.Select(c=>c.book.Price).Aggregate((c1, c2) => c1 + c2);
+                    {
+                        myorder.UserID = CurentId;
+                        myorder.Total = myDetailsInCart.Select(c => c.book.Price).Aggregate((c1, c2) => c1 + c2);
+                    };
+                    
                     _context.Add(myorder);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
 
-                    foreach(var item in myDetailsInCart)
+                    foreach (var item in myDetailsInCart)
                     {
                         OrderDetail detail = new OrderDetail()
                         {
                             OrderId = myorder.Id,
                             BookId = item.book.Id,
-                            Quantity = 1
+                            Quantity = 1,
+                            shopID = item.book.UserId
                         };
-                        RemoveCart(detail.BookId);
+                        
                         _context.Add(detail);
+                        await _context.SaveChangesAsync();
                     }
                     
-                    _context.SaveChanges();
-                    
-                }
-                catch (DbUpdateException ex)
-                {
-                    
-                    Console.WriteLine("Error occurred in Checkout" + ex);
+                    //_context.SaveChanges();
+                    //RemoveCart(detail.BookId);
+                    ClearCart();
 
-                }
             }
+                catch (DbUpdateException ex)
+            {
+
+                Console.WriteLine("Error occurred in Checkout" + ex);
+
+            }
+        }
+            
                 return RedirectToAction("Index");
         }
+
+
+       
         //public async Task<IActionResult> Checkout(string returnUrl = null)
         //{
         //    int quantity = 1;

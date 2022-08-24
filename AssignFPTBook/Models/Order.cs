@@ -9,9 +9,9 @@ namespace AssignFPTBook.Models
     {
         [Key]
         public int Id { get; set; }
-        public string UId { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public double Total { get; set; }
+        public string UserID { get; set; }
         public ApplicationUser User { get; set; }
         public virtual List<OrderDetail> OrderDetails { get; set; }
 
@@ -28,6 +28,7 @@ namespace AssignFPTBook.Models
         public int OrderId { get; set; }
         public Order Order { get; set; }
         public Book Book { get; set; }
+        public string shopID { get; set; }
 
     }
 }

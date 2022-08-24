@@ -36,8 +36,8 @@ namespace AssignFPTBook.Controllers
         public IActionResult OrderStore()
         {
             var currentUserId = _userManager.GetUserId(User);
-            var order = _context.Orders
-                .Where(o => o.UId == currentUserId).Include(s => s.OrderDetails).Include(s => s.User)
+            var order = _context.OrderDetails
+                .Where(o => o.shopID == currentUserId).Include(s => s.Order).Include(s => s.Order.User)
                 .ToList();
             return View(order);
         }
