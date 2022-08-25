@@ -1,83 +1,46 @@
 ﻿@model IEnumerable<Book>
 
 
-    <h1>FPT Book</h1>
-    <div class="form-group"><a asp-controller="Customers" asp-action="" class="btn btn-dark">CheckOut Screen</a></div>
-    <div class="form-group">
+<h1>FPT Book</h1>
+<div class="form-group"><a asp-controller="Customers" asp-action="" class="btn btn-dark">CheckOut Screen</a></div>
+<div class="form-group">
     <form>
         <input type="text" name="search" placeholder="Search books by name or category" />
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 </div>
-    <hr />
-   <div class="container">
+<hr />
+<div class="container">
     <div class="row">
         @foreach (var item in Model)
         {
-            @*<!-- product -->
-	<div class="product-content product-wrap clearfix">
-		<div class="row">
-				<div class="col-md-4 col-sm-12 col-xs-12">
-					<div class="product-image"> 
-						<img src="@ViewBag.ImageData" alt="194x228" class="img-responsive"> 
-						<span class="tag2 hot">
-							HOT
-						</span> 
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-12 col-xs-12">
-				<div class="product-deatil">
-						<h5 class="name">
-							<a href="#">
-								<h5 class="card-title">@item.Title</h5>
-								<span>@item.Category.Description</span>
-							</a>
-						</h5>
-						<p class="price-container">
-							<span>@item.Price,000 d</span>
-						</p>
-						<span class="tag1"></span> 
-				</div>
-				
-				<div class="product-info smart-form">
-					<div class="row">
-						<div class="col-md-6 col-sm-6 col-xs-6"> 
-							
-							<a asp-controller="Customers" asp-action="Details" asp-route-id="@item.Id " class="btn btn-success">Detail</a>
-							   <a asp-controller="Customers" asp-action="AddToCart" asp-route-isbn="@item.Id" class="btn btn-success">Add to cart</a>
-						</div>
-						<div class="col-md-6 col-sm-6 col-xs-6">
-							<div class="rating">
-								<label for="stars-rating-5"><i class="fa fa-star"></i></label>
-								<label for="stars-rating-4"><i class="fa fa-star"></i></label>
-								<label for="stars-rating-3"><i class="fa fa-star text-primary"></i></label>
-								<label for="stars-rating-2"><i class="fa fa-star text-primary"></i></label>
-								<label for="stars-rating-1"><i class="fa fa-star text-primary"></i></label>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>*@
-	
+            <a asp-controller="Customers" asp-action="Details" asp-route-id="@item.Id ">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card">
 
-           
-            <div class="col-md-4 col-6">
-                <div class="card" style="width: 20rem;">
-                    
-                    <div class="card-body">
-                        <img src="@ViewBag.ImageData" alt="194x228" class="img-responsive"> 
-                        <h5 class="card-title">@item.Title</h5>
-                        <h5 class="card-title">@item.Category.Description</h5>
-                        <h5 class="card-title">@item.Price</h5>
-                        <a asp-controller="Customers" asp-action="Details" asp-route-id="@item.Id " class="btn btn-primary">Detail</a>
-                        <a asp-controller="Cart" asp-action="AddCart" asp-route-id="@item.Id" class="btn btn-primary">Add to cart</a>
+                        <div class="bg-image hover-zoom ripple ripple-surface ripple-surface-light"
+                         data-mdb-ripple-color="light">
+
+                            <img src="@item.ImageData"
+                             class="w-100" />
+
+                        </div>
+
+
+
+                        <div class="card-body">
+                            <div class="form-group" style="width: 100% ;height 20% ; "> <h5 class="card-title" >@item.Title</h5></div>
+                            <hr>
+                            <h5 class="card-title">@item.Category.Description</h5>
+                            <h5 class="card-title">@item.Price VND</h5>
+
+                            <a asp-controller="Cart" asp-action="AddCart" asp-route-id="@item.Id" class="btn btn-primary">Add to cart</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-			}
-        
- </div>
- </div>
+            </a>
+        }
+
+    </div>
+</div>
 

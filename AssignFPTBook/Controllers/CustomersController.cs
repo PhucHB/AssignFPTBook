@@ -35,12 +35,16 @@ namespace AssignFPTBook.Controllers
                 
                 return View(result);
             }
-            
-            IEnumerable<Book> customers = _context.Books
-                .Include(b => b.Category)
-                .ToList();
 
-            
+            var customers = _context.Books
+                .Include(b => b.Category)
+            .ToList();
+
+            //string imageBase64Data = Convert.ToBase64String();
+
+            //string image = string.Format("data:image/jpg;base64, {0}", imageBase64Data);
+            //ViewBag.ImageData = image;
+
             return View(customers);
         }
         public IActionResult Details(int id)
