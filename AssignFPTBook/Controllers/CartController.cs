@@ -21,7 +21,7 @@ namespace AssignFPTBook.Controllers
         public const string CARTKEY = "cart";
         private ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private string Message ="Order success please check your order ";
+        
         public CartController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
@@ -121,8 +121,8 @@ namespace AssignFPTBook.Controllers
         {
             
             List<CartItem> myDetailsInCart = GetCartItems();
-            using (var ttransaction = _context.Database.BeginTransaction())
-            {
+            //using (var ttransaction = _context.Database.BeginTransaction())
+            //{
                 try
                 {
                     var CurentId = _userManager.GetUserId(User);
@@ -160,7 +160,7 @@ namespace AssignFPTBook.Controllers
                 Console.WriteLine("Error occurred in Checkout" + ex);
 
             }
-        }
+        //}
             
                 return RedirectToAction("Index");
         }

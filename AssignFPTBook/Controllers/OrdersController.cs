@@ -41,7 +41,12 @@ namespace AssignFPTBook.Controllers
                 .ToList();
             return View(order);
         }
-        
+        public IActionResult DetailOrderStore(int id)
+        {
+            var currentUserId = _userManager.GetUserId(User);
+            var ordeDdetails = _context.OrderDetails.Where(od => od.Id == id).Include(s => s.Book).Include(s => s.Order).Include(s => s.Book.User);
+            return View(ordeDdetails);
+        }
 
 
         //public async Task<IActionResult> HistoryOrderOfSeller()

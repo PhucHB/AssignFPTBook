@@ -13,6 +13,8 @@
             <th scope="col">Address</th>
             <th scope="col">Phone</th>
             
+            <th scope="col">OrderID</th>
+            
             
         </tr>
     </thead>
@@ -26,11 +28,13 @@
                 <td>@item.Order.User.FullName</td>
                 <td>@item.Order.User.Address</td>
                 <td>@item.Order.User.PhoneNumber</td>
+                <td>@item.Order.Id</td>
+                
                 
                 
                 <td>
                     <a asp-controller="Orders"
-                   asp-action="Detail"
+                   asp-action="DetailOrderStore"
                    asp-route-id=@item.Id
                    class="btn btn-info">
                         Detail
