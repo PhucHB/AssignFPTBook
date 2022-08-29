@@ -102,19 +102,30 @@ namespace AssignFPTBook.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        [Route("/updatecart", Name = "updatecart")]
-        [HttpPost]
-        public IActionResult UpdateCart([FromForm] int id, [FromForm] int quantity)
+        public IActionResult UpdateCart(int id, int quantity)
         {
             var cart = GetCartItems();
             var cartitem = cart.Find(p => p.book.Id == id);
             if (cartitem != null)
             {
-                cartitem.Quantity = quantity;
+                cartitem.Quantity++;
             }
             SaveCartSession(cart);
-            return Ok();
+            return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult UpdateCartrm(int id, int quantity)
+        {
+            var cart = GetCartItems();
+            var cartitem = cart.Find(p => p.book.Id == id);
+            if (cartitem != null)
+            {
+                cartitem.Quantity--;
+            }
+            SaveCartSession(cart);
+            return RedirectToAction(nameof(Index));
+        }
+
 
 
         public async Task< IActionResult> CheckOut()

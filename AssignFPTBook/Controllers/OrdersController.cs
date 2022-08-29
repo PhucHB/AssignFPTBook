@@ -33,8 +33,18 @@ namespace AssignFPTBook.Controllers
             var ordeDdetails = _context.OrderDetails.Where(od => od.OrderId == id).Include(s => s.Book).Include(s => s.Order).Include(s => s.Book.User);
             return View(ordeDdetails);
         }
-        public IActionResult OrderStore()
+        public IActionResult OrderStore(string search)
         {
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var result = _context.OrderDetails
+                    .Include(b => b.Order.User)
+                    .Where(b => b.Order.User.Email.ToLower().Equals(search))
+                    .ToList();
+
+                return View(result);
+            }
+
             var currentUserId = _userManager.GetUserId(User);
             var order = _context.OrderDetails
                 .Where(o => o.shopID == currentUserId).Include(s => s.Order).Include(s => s.Order.User)

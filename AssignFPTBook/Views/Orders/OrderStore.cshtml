@@ -1,6 +1,11 @@
 ﻿@model IEnumerable<OrderDetail>
 
-    <h1>...................</h1>
+    <h1>..........Order.........</h1>
+    <form>
+        <input type="text" name="search" placeholder="Search customer by email" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
 
 <table class="table">
     <thead>
@@ -12,7 +17,7 @@
             <th scope="col">Name</th>
             <th scope="col">Address</th>
             <th scope="col">Phone</th>
-            
+            <th scope="col">Email</th>
             <th scope="col">OrderID</th>
             
             
@@ -28,6 +33,7 @@
                 <td>@item.Order.User.FullName</td>
                 <td>@item.Order.User.Address</td>
                 <td>@item.Order.User.PhoneNumber</td>
+                <td>@item.Order.User.Email</td>
                 <td>@item.Order.Id</td>
                 
                 

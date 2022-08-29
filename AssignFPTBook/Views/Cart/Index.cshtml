@@ -24,12 +24,15 @@
         <tr>
            <td>@(stt++)</td>
            <td>@Item.book.Title</td>
-           <td>@(Item.book.Price.ToString("n0"))</td>
-           <td><input asp-for="@Item.Quantity" id="@($"quantity-{Item.book.Id}")"/></td>
-           <td>@(itemMoney.ToString("n0"))</td>
+           <td>@(Item.book.Price.ToString("n"))</td>
            <td>
-              <button class="btn btn-success updatecartitem" 
-                    data-productid="@Item.book.Id">Update</button>
+               <a asp-controller="Cart" name="quantity" asp-action="UpdateCart" asp-route-id="@Item.book.Id" class="btn btn-success"  >+</a>
+               @Item.Quantity
+               <a asp-controller="Cart" name="quantity" asp-action="UpdateCartrm" asp-route-id="@Item.book.Id" class="btn btn-success"  >-</a>
+           </td> 
+           <td>@(itemMoney.ToString("n"))</td>
+           <td>
+              
               <a asp-controller="Cart" asp-action="RemoveCart" asp-route-id="@Item.book.Id"
                 class="btn btn-danger">Delete</a>
            </td>
@@ -44,28 +47,7 @@
 
   <a asp-controller="Cart" asp-action="CheckOut" class="btn btn-success" >Checkout</a>
 
-      @section Scripts {
-        <script>
-          $(document).ready(function () {
-              $(".updatecartitem").click(function (event) {
-                  event.preventDefault();
-                  var id = $(this).attr("data-id");
-                  var quantity = $("#quantity-" + BookId).val();
-                  $.ajax({
-                      type: "POST",
-                      url:"@Url.RouteUrl("updatecart")",
-                      data: {
-                          id : id,
-                          quantity : quantity
-                      },
-                      success: function (result) {
-                          window.location.href = "Index";
-                      }
-                  });
-              });
-          });
-        </script>
-      }
+      
 
 }
 else {
