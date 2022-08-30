@@ -2,7 +2,7 @@
 
 <h1>.........Category..........</h1>
 <div class="form-group">
-    <a asp-controller="Categories" asp-action="CreateAd" class="btn btn-primary">
+    <a asp-controller="Categories" asp-action="Create" class="btn btn-primary">
         Create a new Category
     </a>
 </div>
@@ -24,14 +24,7 @@
                 <td>@item.Description</td>
                 <td>@item.Status</td>
                
-                <td>
-                    <a asp-controller="Categories"
-                   asp-action="Edit"
-                   asp-route-id=@item.Id
-                   class="btn btn-info">
-                        Edit
-                    </a>
-                </td>
+                
             </tr>
         }
     </tbody>

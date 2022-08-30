@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AssignFPTBook.Enums;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -35,7 +36,8 @@ namespace AssignFPTBook.Models
         public int Id { get; set; }
         [Required(ErrorMessage = "Description cannot be null ...")]
         [StringLength(255)]
-        public String Description { get; set; }
+        public String Description { get; set;}
+        public ContactStatus Status { get; set; } = ContactStatus.pending;
         public List<Book> Books { get; set; }
 
 

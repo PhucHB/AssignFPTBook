@@ -52,7 +52,7 @@ namespace AssignFPTBook.Controllers
             
             var viewModel = new BookCategoriesViewModel()
             {
-                Categories = _context.Categories.ToList()
+                Categories = _context.Categories.Where(c=>c.Status == Enums.ContactStatus.Accept).ToList()
 
 
             };
@@ -65,7 +65,7 @@ namespace AssignFPTBook.Controllers
             {
                 viewModel = new BookCategoriesViewModel
                 {
-                    Categories = _context.Categories.ToList()
+                    Categories = _context.Categories.Where(c => c.Status == Enums.ContactStatus.Accept).ToList()
                 };
                 return View();
             }

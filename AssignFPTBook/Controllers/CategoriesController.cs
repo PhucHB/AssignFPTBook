@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace AssignFPTBook.Controllers
 {
-    [Authorize(Roles = Role.ADMIN)]
+
     public class CategoriesController : Controller
     {
         private ApplicationDbContext _context;
@@ -19,13 +19,22 @@ namespace AssignFPTBook.Controllers
             _context = context;
             _userManager = userManager;
         }
+        [Authorize(Roles = Role.ADMIN)]
         [HttpGet]
         public IActionResult Index()
         {
             IEnumerable<Category> category = _context.Categories.ToList();
             return View(category);
         }
-       
+        [Authorize(Roles = Role.STORE)]
+        public IActionResult Indexc()
+        {
+            IEnumerable<Category> category = _context.Categories.ToList();
+            return View(category);
+        }
+
+
+        [Authorize(Roles = Role.STORE)]
         [HttpGet]
         public IActionResult Create()
         {
@@ -33,7 +42,7 @@ namespace AssignFPTBook.Controllers
             return View();
         }
 
-        
+        [Authorize(Roles = Role.STORE)]
         [HttpPost]
         public IActionResult Create(Category category)
         {
@@ -45,8 +54,10 @@ namespace AssignFPTBook.Controllers
             };
             _context.Add(newCategory);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Indexc");
         }
+
+        [Authorize(Roles = Role.ADMIN)]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -59,7 +70,7 @@ namespace AssignFPTBook.Controllers
 
             return View(CInDb);
         }
-       
+        [Authorize(Roles = Role.ADMIN)]
         [HttpPost]
         public IActionResult Edit(Category category)
         {
@@ -69,8 +80,31 @@ namespace AssignFPTBook.Controllers
                 return BadRequest();
             }
             CInDb.Description = category.Description;
+            CInDb.Status = category.Status;
             _context.SaveChanges();
             return RedirectToAction("index");
+        }
+        [Authorize(Roles = Role.ADMIN)]
+        [HttpGet]
+        public IActionResult CreateAd()
+        {
+
+            return View();
+        }
+        [Authorize(Roles = Role.ADMIN)]
+        [HttpPost]
+        public IActionResult CreateAd(Category category)
+        {
+
+            var newCategory = new Category
+            {
+                Description = category.Description,
+                Status = Enums.ContactStatus.Accept,
+
+            };
+            _context.Add(newCategory);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
