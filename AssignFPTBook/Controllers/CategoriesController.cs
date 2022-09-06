@@ -20,6 +20,7 @@ namespace AssignFPTBook.Controllers
             _userManager = userManager;
         }
         [Authorize(Roles = Role.ADMIN)]
+        
         [HttpGet]
         public IActionResult Index()
         {
@@ -103,6 +104,18 @@ namespace AssignFPTBook.Controllers
 
             };
             _context.Add(newCategory);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public  IActionResult Delete(int id)
+        {
+            var CateInDb = _context.Categories.SingleOrDefault(b => b.Id == id );
+            if (CateInDb is null)
+            {
+                return NotFound();
+            }
+            _context.Categories.Remove(CateInDb);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

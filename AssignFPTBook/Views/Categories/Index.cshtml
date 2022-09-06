@@ -31,6 +31,12 @@
                    class="btn btn-info">
                         Edit
                     </a>
+                     <a asp-controller="Categories"
+                   asp-action="Delete"
+                   asp-route-id=@item.Id
+                   class="btn btn-info">
+                        Delete
+                    </a>
                 </td>
             </tr>
         }
